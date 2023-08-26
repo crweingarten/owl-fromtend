@@ -1,0 +1,157 @@
+{ "overall": {
+        "Overall_From": "01/01/2023",
+        "Overall_To": "4/20/2024",
+        "starting_amount": 1000.00
+    },
+        "money_items": [
+            {
+                "name": "Taxes",
+                "type": "expense",
+                "rate": "ANNUALLY",
+                "duration":
+                    {
+                        "From": "01/20/2020",
+                        "To": "04/20/2025",
+                        "Rate": 1
+                    },
+                "amount": 1020.00
+            },
+            {
+                "name": "Rent",
+                "type": "expense",
+                "rate": "MONTHLY",
+                "duration":
+                    {
+                        "From": "09/01/2022",
+                        "To": "09/01/2024",
+                        "Rate": 1
+                    },
+                "amount": 1500.00
+            },
+            {
+                "name": "Audible",
+                "type": "expense",
+                "rate": "MONTHLY",
+                "duration":
+                    {
+                        "From": "09/01/2022",
+                        "To": "09/01/2024",
+                        "Rate": 1
+                    },
+                "amount": 15.00
+            },
+            {
+                "name": "Statefarm",
+                "type": "expense",
+                "rate": "MONTHLY",
+                "duration":
+                    {
+                        "From": "09/01/2022",
+                        "To": "09/01/2024",
+                        "Rate": 1
+                    },
+                "amount": 76.00
+            },
+            {
+                "name": "Food at work",
+                "type": "expense",
+                "rate": "WEEK",
+                "duration":
+                    {
+                        "From": "09/01/2022",
+                        "To": "09/01/2024",
+                        "Rate": 1
+                    },
+                "amount": 40.00
+            },
+            {
+                "name": "other_srp",
+                "type": "expense",
+                "rate": "MONTHLY",
+                "duration":
+                    {
+                        "From": "09/01/2022",
+                        "To": "09/01/2024",
+                        "Rate": 1
+                    },
+                "amount": 90.00
+            },
+            {
+                "name": "paycheck",
+                "type": "income",
+                "rate": "BIWEEKLY",
+                "duration":
+                    {
+                        "From": "01/20/2022",
+                        "To": "04/20/2025",
+                        "Rate": 1
+                    },
+                "amount": 1550.00
+            },
+            {
+                "name": "401k match",
+                "account": "savings_1",
+                "type": "saving",
+                "from": "paycheck",
+                "withdraw": 6,
+                "interest_rate": 6,
+                "compound": "DAILY",
+                "rate": "saving",
+                "duration":
+                    {
+                        "From": "01/20/2022",
+                        "To": "04/20/2050",
+                        "Rate": 1
+                    },
+                "amount": 0.00
+            },
+            {
+                "name": "ROTH",
+                "type": "expense",
+                "rate": "ONETIME",
+                "duration":
+                    {
+                        "From": "07/01/2023",
+                        "To": "01/01/2024",
+                        "Rate": 1
+                    },
+                "amount": 6500.00
+            },
+            {
+                "name": "phone",
+                "type": "expense",
+                "rate": "ONETIME",
+                "duration":
+                    {
+                        "From": "07/10/2023",
+                        "To": "01/01/2024",
+                        "Rate": 1
+                    },
+                "amount": 900.00
+            },
+            {
+                "name": "Bonus",
+                "type": "income",
+                "rate": "BI_ANNUALLY",
+                "duration":
+                    {
+                        "From": "01/20/2022",
+                        "To": "04/20/2025",
+                        "Rate": 1
+                    },
+                "amount": 650.00
+            },
+            {
+                "name": "Stock",
+                "type": "income",
+                "rate": "BI_ANNUALLY",
+                "duration":
+                    {
+                        "From": "01/20/2022",
+                        "To": "04/20/2025",
+                        "Rate": 1
+                    },
+                "amount": 3000.00
+            }
+        ]
+}
