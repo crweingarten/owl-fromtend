@@ -1,21 +1,42 @@
 import { Field, Formik } from "formik";
+// import { useState } from "react";
 import DurationsFormatter from "./DurationsFormatter";
 
-const durationDropdown = DurationsFormatter("dropdownMenu");
+// const durationDropdown = DurationsFormatter("dropdown", "rate");
+// const durationDropdown = DurationsFormatter("dropdown", "rate");
 
-export default function EditSuite() {
-  console.log(durationDropdown);
+export default function EditSuite({
+  handleUpdate,
+  handleSavings,
+  isSavings,
+  editItem,
+}) {
+  const isAddMode = !editItem;
+
+  console.log(editItem);
+  const formattedTo = !isAddMode
+    ? new Date(editItem.duration.To).toISOString().split("T")[0]
+    : "";
+  const formattedFrom = !isAddMode
+    ? new Date(editItem.duration.From).toISOString().split("T")[0]
+    : "";
+
   return (
     <div className="money-column-box my-2">
+      <div></div>
       <Formik
+        enableReinitialize={true}
         initialValues={{
-          name: "",
-          amount: "",
-          type: "",
-          rate: "",
-          dateto: "",
-          datefrom: "",
-          indefinite: "",
+          name: isAddMode ? "" : editItem.name,
+          amount: isAddMode ? "" : editItem.amount,
+          type: isAddMode ? "income" : editItem.type,
+          rate: isAddMode ? "DAY" : editItem.rate,
+          datefrom: isAddMode ? "" : formattedFrom,
+          dateto: isAddMode ? "" : formattedTo,
+          withdraw: isAddMode ? "" : editItem.withdraw,
+          interest_rate: isAddMode ? "" : editItem.interest_rate,
+          from: isAddMode ? "FIX ME" : editItem.from,
+          compound: isAddMode ? "DAY" : editItem.compound,
         }}
         // validate={(values) => {
         //   const errors = {};
@@ -25,11 +46,11 @@ export default function EditSuite() {
         //   return errors;
         // }}
         onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
           }, 400);
+          handleUpdate(values, "new");
         }}
       >
         {({
@@ -40,7 +61,6 @@ export default function EditSuite() {
           handleBlur,
           handleSubmit,
           isSubmitting,
-          /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit}>
             <label>
@@ -54,10 +74,13 @@ export default function EditSuite() {
               />
             </label>
             {errors.name && touched.name && errors.name}
+            <span className="dollar">$</span>
+
             <label>
               amount
               <input
                 type="text"
+                style={{ paddingLeft: "12px" }}
                 name="amount"
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -70,13 +93,16 @@ export default function EditSuite() {
               <Field
                 as="select"
                 name="type"
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  handleSavings(e.target.value);
+                }}
                 onBlur={handleBlur}
                 value={values.type}
               >
-                <option>Income</option>
-                <option>Expense</option>
-                <option>Savings</option>
+                <option value={"income"}>Income</option>
+                <option value={"expense"}>Expense</option>
+                <option value={"saving"}>Savings</option>
               </Field>
               {errors.type && touched.type && errors.type}
             </label>
@@ -84,12 +110,12 @@ export default function EditSuite() {
               rate
               <Field
                 as="select"
-                name="type"
+                name="rate"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.rate}
               >
-                {durationDropdown}
+                {DurationsFormatter("dropdown", "rate")}
               </Field>
             </label>
             {errors.rate && touched.rate && errors.rate}
@@ -126,13 +152,73 @@ export default function EditSuite() {
             />
             <label className="indefinite">indefinite</label>
             {errors.indefinite && touched.indefinite && errors.indefinite}
-            <button
-              type="submit"
-              className="submit-button"
-              disabled={isSubmitting}
-            >
-              Submit
-            </button>
+            {isSavings === false ? (
+              <button
+                type="submit"
+                className="submit-button"
+                disabled={isSubmitting}
+              >
+                Submit
+              </button>
+            ) : null}
+            {isSavings === true ? (
+              <div>
+                <label>
+                  interest rate
+                  <input
+                    type="text"
+                    name="interest_rate"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.interest_rate}
+                  />
+                </label>
+                <label>
+                  compound rate
+                  <Field
+                    as="select"
+                    name="compound"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.compound}
+                  >
+                    {DurationsFormatter("dropdown", "compound")}
+                  </Field>
+                </label>
+                <label>
+                  from:
+                  <Field
+                    as="select"
+                    name="from"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.from}
+                  >
+                    {/* {durationDropdown} */}
+                  </Field>
+                </label>
+                <label>
+                  percent %
+                  <input
+                    type="text"
+                    name="withdraw"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.withdraw}
+                  />
+                </label>
+
+                <button
+                  type="submit"
+                  className="submit-button"
+                  disabled={isSubmitting}
+                >
+                  Submit
+                </button>
+              </div>
+            ) : (
+              <div />
+            )}
           </form>
         )}
       </Formik>

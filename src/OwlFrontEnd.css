@@ -12,10 +12,10 @@
 
 }
 
-.money-column-box {
+/* .money-column-box {
   border-style: solid;
   border-width: 100%;
-}
+} */
 
 .money-column-type {
   text-transform: capitalize;
@@ -54,6 +54,12 @@ div.col-1, div.col-2, div.col-3, div.col-4, div.col-5, div.col-6 {
 form {margin-top: 10px;
   margin-bottom: 20px;
 }
+
+.dollar {
+  position: absolute;
+  z-index: 1;
+  margin-left: 4px;
+  margin-top: 2px}
 
 input {
   display: inline-block;
@@ -112,6 +118,8 @@ select { display: inline-block;
   position: relative;
   top: .25em;
 }
+
+
 
 
 

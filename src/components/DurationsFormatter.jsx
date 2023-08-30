@@ -1,19 +1,28 @@
-export default function DurationsFormatter(itemDuration) {
-  const durations = {
-    DAY: "Daily",
+export default function DurationsFormatter(itemDuration, type) {
+  const rateDurations = {
+    DAILY: "Daily",
     WEEK: "Weekly",
     BIWEEKLY: "Bi-weekly",
     MONTHLY: "Monthly",
+    QUARTERLY: "Quarterly",
     BI_ANNUALLY: "Bi-annually",
     ANNUALLY: "Annually",
-    QUARTERLY: "Quarterly",
     ONETIME: "One Time",
   };
 
-  if (itemDuration === "dropdownMenu") {
+  const compoundDurations = {
+    DAILY: "Daily",
+    MONTHLY: "Monthly",
+    QUARTERLY: "Quarterly",
+    ANNUALLY: "Annually",
+  };
+
+  const rateInput = type === "rate" ? rateDurations : compoundDurations;
+
+  if (itemDuration === "dropdown" && type) {
     const durationDropdown = [];
 
-    Object.entries(durations).forEach((entry) => {
+    Object.entries(rateInput).forEach((entry) => {
       const [key, value] = entry;
       durationDropdown.push(
         <option key={key} value={key}>
@@ -23,6 +32,6 @@ export default function DurationsFormatter(itemDuration) {
     });
     return durationDropdown;
   } else {
-    return durations[itemDuration];
+    return rateDurations[itemDuration];
   }
 }
