@@ -1,19 +1,25 @@
+import { useState } from "react";
 import { Field, Formik } from "formik";
-// import { useState } from "react";
 import DurationsFormatter from "./DurationsFormatter";
-
-// const durationDropdown = DurationsFormatter("dropdown", "rate");
-// const durationDropdown = DurationsFormatter("dropdown", "rate");
 
 export default function EditSuite({
   handleUpdate,
   handleSavings,
   isSavings,
   editItem,
+  incomeDropdown,
 }) {
   const isAddMode = !editItem;
 
-  console.log(editItem);
+  const [isIndefinite, setIndefinite] = useState(false);
+
+  const checkHandler = (setFieldValue) => {
+    setIndefinite(!isIndefinite);
+    !isIndefinite
+      ? setFieldValue("dateto", "2999-01-01")
+      : setFieldValue("dateto", "");
+  };
+
   const formattedTo = !isAddMode
     ? new Date(editItem.duration.To).toISOString().split("T")[0]
     : "";
@@ -28,6 +34,7 @@ export default function EditSuite({
         enableReinitialize={true}
         initialValues={{
           name: isAddMode ? "" : editItem.name,
+          id: isAddMode ? "" : editItem.id,
           amount: isAddMode ? "" : editItem.amount,
           type: isAddMode ? "income" : editItem.type,
           rate: isAddMode ? "DAY" : editItem.rate,
@@ -35,7 +42,7 @@ export default function EditSuite({
           dateto: isAddMode ? "" : formattedTo,
           withdraw: isAddMode ? "" : editItem.withdraw,
           interest_rate: isAddMode ? "" : editItem.interest_rate,
-          from: isAddMode ? "FIX ME" : editItem.from,
+          from: isAddMode ? "" : editItem.from,
           compound: isAddMode ? "DAY" : editItem.compound,
         }}
         // validate={(values) => {
@@ -50,7 +57,7 @@ export default function EditSuite({
             alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
           }, 400);
-          handleUpdate(values, "new");
+          handleUpdate(values);
         }}
       >
         {({
@@ -61,6 +68,7 @@ export default function EditSuite({
           handleBlur,
           handleSubmit,
           isSubmitting,
+          setFieldValue,
         }) => (
           <form onSubmit={handleSubmit}>
             <label>
@@ -74,8 +82,25 @@ export default function EditSuite({
               />
             </label>
             {errors.name && touched.name && errors.name}
-            <span className="dollar">$</span>
+            <label>
+              type
+              <Field
+                as="select"
+                name="type"
+                onChange={(e) => {
+                  handleChange(e);
+                  handleSavings(e.target.value);
+                }}
+                onBlur={handleBlur}
+              >
+                <option value={"income"}>Income</option>
+                <option value={"expense"}>Expense</option>
+                <option value={"saving"}>Savings</option>
+              </Field>
+              {errors.type && touched.type && errors.type}
+            </label>
 
+            <span className="dollar">$</span>
             <label>
               amount
               <input
@@ -88,78 +113,66 @@ export default function EditSuite({
               />
             </label>
             {errors.amount && touched.amount && errors.amount}
-            <label>
-              type
-              <Field
-                as="select"
-                name="type"
-                onChange={(e) => {
-                  handleChange(e);
-                  handleSavings(e.target.value);
-                }}
-                onBlur={handleBlur}
-                value={values.type}
-              >
-                <option value={"income"}>Income</option>
-                <option value={"expense"}>Expense</option>
-                <option value={"saving"}>Savings</option>
-              </Field>
-              {errors.type && touched.type && errors.type}
-            </label>
-            <label>
-              rate
-              <Field
-                as="select"
-                name="rate"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.rate}
-              >
-                {DurationsFormatter("dropdown", "rate")}
-              </Field>
-            </label>
-            {errors.rate && touched.rate && errors.rate}
-            <label>
-              from:
-              <input
-                type="date"
-                name="datefrom"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.datefrom}
-              />
-            </label>
-            {errors.datefrom && touched.datefrom && errors.datefrom}
-            <label>
-              to:
-              <input
-                type="date"
-                name="dateto"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.dateto}
-              />
-            </label>
-            {errors.dateto && touched.dateto && errors.dateto}
-
-            <input
-              className="checkbox"
-              type="checkbox"
-              name="indefinite"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.indefinite}
-            />
-            <label className="indefinite">indefinite</label>
-            {errors.indefinite && touched.indefinite && errors.indefinite}
             {isSavings === false ? (
-              <button
-                type="submit"
-                className="submit-button"
-                disabled={isSubmitting}
-              >
-                Submit
-              </button>
+              <>
+                <label>
+                  rate
+                  <Field
+                    as="select"
+                    name="rate"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.rate}
+                  >
+                    {DurationsFormatter("dropdown", "rate")}
+                  </Field>
+                </label>
+                {errors.rate && touched.rate && errors.rate}
+                <label>
+                  from:
+                  <input
+                    type="date"
+                    name="datefrom"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.datefrom}
+                  />
+                </label>
+                {errors.datefrom && touched.datefrom && errors.datefrom}
+                {isIndefinite ? null : (
+                  <>
+                    <label>
+                      to:
+                      <input
+                        type="date"
+                        name="dateto"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.dateto}
+                      />
+                    </label>
+                    {errors.dateto && touched.dateto && errors.dateto}
+                  </>
+                )}
+
+                <input
+                  className="checkbox"
+                  type="checkbox"
+                  name="indefinite"
+                  onChange={() => {
+                    checkHandler(setFieldValue);
+                  }}
+                />
+                <label className="indefinite">indefinite</label>
+
+                <button
+                  type="submit"
+                  className="submit-button"
+                  disabled={isSubmitting}
+                >
+                  Submit
+                </button>
+              </>
             ) : null}
             {isSavings === true ? (
               <div>
@@ -194,7 +207,7 @@ export default function EditSuite({
                     onBlur={handleBlur}
                     value={values.from}
                   >
-                    {/* {durationDropdown} */}
+                    {incomeDropdown}
                   </Field>
                 </label>
                 <label>

@@ -24,11 +24,20 @@
 
 }
 
+.money-item {background-color: blue;
+opacity: 0.5}
+
+.delete-warning {background-color: red;
+  text-align: center;
+ }
+
+ .inactive {background-color:gray}
+
 .money-item-title
  {
   font-weight: bold;
   font-size: large;
-  flex-wrap: wrap
+  overflow-wrap: normal;
 
 
 }

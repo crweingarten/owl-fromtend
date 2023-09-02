@@ -1,8 +1,22 @@
 import MoneyItem from "./MoneyItem";
 
-export default function MoneyColumnBox({ type, data, handleUpdate }) {
+export default function MoneyColumnBox({
+  type,
+  data,
+  handleEdit,
+  handleDelete,
+  isDelete,
+  isEdit,
+}) {
   const moneyItems = data.map((item) => (
-    <MoneyItem key={item.name} item={item} handleUpdate={handleUpdate} />
+    <MoneyItem
+      key={item.id}
+      item={item}
+      isEdit={isEdit}
+      isDelete={isDelete}
+      handleEdit={handleEdit}
+      handleDelete={handleDelete}
+    />
   ));
 
   return (

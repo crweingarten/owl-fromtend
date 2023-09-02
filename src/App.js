@@ -6,15 +6,20 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import EditSuite from "./components/EditSuite";
 import MoneyColumnBox from "./components/MoneyColumnBox";
+import IncomeDropdown from "./components/IncomeDropdown";
 
 function App() {
   const { money_items } = require("./components/testdata.json");
+  const [items, setItem] = useState(money_items);
+  const [editItem, setEditItem] = useState();
+  const [deleteItem, setDeleteItem] = useState();
+  const [isSavings, setSavings] = useState(false);
 
   let income = [];
   let expense = [];
   let savings = [];
 
-  money_items.forEach((item) => {
+  items.forEach((item) => {
     if (item.type === "income") {
       income.push(item);
     } else if (item.type === "expense") {
@@ -24,19 +29,30 @@ function App() {
     }
   });
 
-  const [incomeItems, setIncome] = useState(income);
-  const [editItem, setEditItem] = useState();
-  const [isSavings, setSavings] = useState(false);
+  const incomeDropdown = IncomeDropdown(income);
 
-  function handleUpdate(item, editStatus) {
-    // console.log("IN:", item.rate);
+  // function indefiniteTranslator(dateto) {
+  //   if (dateto === "2999-01-01") {
+  //     return "Indefinite";
+  //   }
+  //   if (dateto === "Indefinite") {
+  //     return "2999-01-01";
+  //   } else {
+  //     return dateto;
+  //   }
+  // }
+
+  function handleUpdate(item) {
+    handleSavings(item.type);
     const formattedItem = {
       name: item.name,
+      id: item.id ? item.id : `${item.type}-${items.length + 1}`,
       amount: item.amount,
       type: item.type,
       rate: item.rate,
       duration: {
         From: item.datefrom,
+        // To: indefiniteTranslator(item.dateto),
         To: item.dateto,
       },
       withdraw: item.withdraw,
@@ -45,11 +61,41 @@ function App() {
       compound: item.compound,
     };
 
-    // console.log("OUT:", formattedItem.rate);
+    const editedItems = items.map((storedItem) => {
+      if (storedItem.id === formattedItem.id) {
+        return formattedItem;
+      } else {
+        return storedItem;
+      }
+    });
 
-    editStatus === "new"
-      ? setIncome([...incomeItems, formattedItem])
-      : setEditItem(item);
+    !item.id ? setItem([...items, formattedItem]) : setItem(editedItems);
+    setEditItem("");
+  }
+
+  function handleEdit(item, editType) {
+    if (editType === "edit") {
+      console.log(item);
+      setEditItem(item);
+    }
+    if (editType === "duplicate") {
+      setEditItem({ ...item, name: `${item.name}-copy`, id: "" });
+    }
+    if (editType === "delete") {
+      setDeleteItem(item);
+    }
+  }
+
+  function handleDelete(item, type) {
+    if (type === "cancel") {
+      setDeleteItem("");
+      setEditItem("");
+    }
+    if (type === "delete") {
+      const itemsMinusOne = items.filter((data) => data.id !== item.id);
+      setItem(itemsMinusOne);
+      setEditItem("");
+    }
   }
 
   function handleSavings(e) {
@@ -65,28 +111,38 @@ function App() {
             handleSavings={handleSavings}
             isSavings={isSavings}
             editItem={editItem}
+            incomeDropdown={incomeDropdown}
           />
         </Row>
         <Row>
           <Col xs={4}>
             <MoneyColumnBox
               type="income"
-              data={incomeItems}
-              handleUpdate={handleUpdate}
+              data={income}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+              isEdit={editItem}
+              isDelete={deleteItem}
             />
           </Col>
           <Col xs={4}>
             <MoneyColumnBox
               type="expense"
               data={expense}
-              handleUpdate={handleUpdate}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+              isEdit={editItem}
+              isDelete={deleteItem}
             />
           </Col>
           <Col xs={4}>
             <MoneyColumnBox
               type="savings"
               data={savings}
-              handleUpdate={handleUpdate}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+              isEdit={editItem}
+              isDelete={deleteItem}
             />
           </Col>
         </Row>

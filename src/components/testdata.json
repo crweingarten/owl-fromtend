@@ -6,6 +6,7 @@
         "money_items": [
             {
                 "name": "Taxes",
+                "id": 1,
                 "type": "expense",
                 "rate": "ANNUALLY",
                 "duration":
@@ -18,6 +19,7 @@
             },
             {
                 "name": "Rent",
+                "id": 2,
                 "type": "expense",
                 "rate": "MONTHLY",
                 "duration":
@@ -30,6 +32,7 @@
             },
             {
                 "name": "Audible",
+                "id": 3,
                 "type": "expense",
                 "rate": "MONTHLY",
                 "duration":
@@ -42,6 +45,7 @@
             },
             {
                 "name": "Statefarm",
+                "id": 4,
                 "type": "expense",
                 "rate": "MONTHLY",
                 "duration":
@@ -54,6 +58,7 @@
             },
             {
                 "name": "Food at work",
+                "id": 5,
                 "type": "expense",
                 "rate": "WEEK",
                 "duration":
@@ -66,6 +71,7 @@
             },
             {
                 "name": "other_srp",
+                "id": 6,
                 "type": "expense",
                 "rate": "MONTHLY",
                 "duration":
@@ -78,6 +84,7 @@
             },
             {
                 "name": "paycheck",
+                "id": 7,
                 "type": "income",
                 "rate": "BIWEEKLY",
                 "duration":
@@ -90,6 +97,7 @@
             },
             {
                 "name": "401k match",
+                "id": 8,
                 "account": "savings_1",
                 "type": "saving",
                 "from": "paycheck",
@@ -107,6 +115,7 @@
             },
             {
                 "name": "ROTH",
+                "id": 9,
                 "type": "expense",
                 "rate": "ONETIME",
                 "duration":
@@ -119,6 +128,7 @@
             },
             {
                 "name": "phone",
+                "id": 10,
                 "type": "expense",
                 "rate": "ONETIME",
                 "duration":
@@ -131,6 +141,7 @@
             },
             {
                 "name": "Bonus",
+                "id": 11,
                 "type": "income",
                 "rate": "BI_ANNUALLY",
                 "duration":
@@ -143,6 +154,7 @@
             },
             {
                 "name": "Stock",
+                "id": 12,
                 "type": "income",
                 "rate": "BI_ANNUALLY",
                 "duration":
