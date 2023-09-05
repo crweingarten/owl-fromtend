@@ -20,11 +20,16 @@ export default function MoneyItem({
     if (date === "2999-01-01") {
       return "Indefinite";
     } else {
-      return new Date(date).toLocaleDateString();
+      var formattedDate = new Date(date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        timeZone: "UTC",
+      });
+      return formattedDate;
     }
   }
 
-  // }
   const [isInactive, setInactive] = useState(false);
   const boxColor = isEdit && item.id === isEdit.id ? "money-item" : "";
   const deleteWarning = isDelete && item.id === isDelete.id;

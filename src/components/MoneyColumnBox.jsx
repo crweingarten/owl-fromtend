@@ -20,7 +20,7 @@ export default function MoneyColumnBox({
   ));
 
   return (
-    <div className="money-column-box">
+    <div>
       <div className="money-column-type mx-2">{type}</div>
       <div className="mx-2">{moneyItems}</div>
     </div>

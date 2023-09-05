@@ -1,6 +1,6 @@
 export default function DurationsFormatter(itemDuration, type) {
   const rateDurations = {
-    DAILY: "Daily",
+    DAY: "Daily",
     WEEK: "Weekly",
     BIWEEKLY: "Bi-weekly",
     MONTHLY: "Monthly",

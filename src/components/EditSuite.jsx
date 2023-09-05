@@ -20,15 +20,8 @@ export default function EditSuite({
       : setFieldValue("dateto", "");
   };
 
-  const formattedTo = !isAddMode
-    ? new Date(editItem.duration.To).toISOString().split("T")[0]
-    : "";
-  const formattedFrom = !isAddMode
-    ? new Date(editItem.duration.From).toISOString().split("T")[0]
-    : "";
-
   return (
-    <div className="money-column-box my-2">
+    <div className="my-2">
       <div></div>
       <Formik
         enableReinitialize={true}
@@ -38,8 +31,8 @@ export default function EditSuite({
           amount: isAddMode ? "" : editItem.amount,
           type: isAddMode ? "income" : editItem.type,
           rate: isAddMode ? "DAY" : editItem.rate,
-          datefrom: isAddMode ? "" : formattedFrom,
-          dateto: isAddMode ? "" : formattedTo,
+          datefrom: isAddMode ? "" : editItem.duration.From,
+          dateto: isAddMode ? "" : editItem.duration.To,
           withdraw: isAddMode ? "" : editItem.withdraw,
           interest_rate: isAddMode ? "" : editItem.interest_rate,
           from: isAddMode ? "" : editItem.from,
@@ -128,52 +121,55 @@ export default function EditSuite({
                   </Field>
                 </label>
                 {errors.rate && touched.rate && errors.rate}
-                <label>
-                  from:
-                  <input
-                    type="date"
-                    name="datefrom"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.datefrom}
-                  />
-                </label>
-                {errors.datefrom && touched.datefrom && errors.datefrom}
-                {isIndefinite ? null : (
-                  <>
-                    <label>
-                      to:
-                      <input
-                        type="date"
-                        name="dateto"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.dateto}
-                      />
-                    </label>
-                    {errors.dateto && touched.dateto && errors.dateto}
-                  </>
-                )}
-
-                <input
-                  className="checkbox"
-                  type="checkbox"
-                  name="indefinite"
-                  onChange={() => {
-                    checkHandler(setFieldValue);
-                  }}
-                />
-                <label className="indefinite">indefinite</label>
-
-                <button
-                  type="submit"
-                  className="submit-button"
-                  disabled={isSubmitting}
-                >
-                  Submit
-                </button>
               </>
             ) : null}
+            <label>
+              from:
+              <input
+                type="date"
+                name="datefrom"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.datefrom}
+              />
+            </label>
+            {errors.datefrom && touched.datefrom && errors.datefrom}
+            {isIndefinite ? null : (
+              <>
+                <label>
+                  to:
+                  <input
+                    type="date"
+                    name="dateto"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.dateto}
+                  />
+                </label>
+                {errors.dateto && touched.dateto && errors.dateto}
+              </>
+            )}
+
+            <input
+              className="checkbox"
+              type="checkbox"
+              name="indefinite"
+              onChange={() => {
+                checkHandler(setFieldValue);
+              }}
+            />
+            <label className="indefinite">indefinite</label>
+
+            {isSavings === false ? (
+              <button
+                type="submit"
+                className="submit-button"
+                disabled={isSubmitting}
+              >
+                Submit
+              </button>
+            ) : null}
+
             {isSavings === true ? (
               <div>
                 <label>

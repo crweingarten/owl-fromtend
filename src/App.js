@@ -7,6 +7,9 @@ import Col from "react-bootstrap/Col";
 import EditSuite from "./components/EditSuite";
 import MoneyColumnBox from "./components/MoneyColumnBox";
 import IncomeDropdown from "./components/IncomeDropdown";
+import Header from "./components/Header";
+import Span from "./components/Span";
+import Graph from "./components/Graph";
 
 function App() {
   const { money_items } = require("./components/testdata.json");
@@ -31,17 +34,6 @@ function App() {
 
   const incomeDropdown = IncomeDropdown(income);
 
-  // function indefiniteTranslator(dateto) {
-  //   if (dateto === "2999-01-01") {
-  //     return "Indefinite";
-  //   }
-  //   if (dateto === "Indefinite") {
-  //     return "2999-01-01";
-  //   } else {
-  //     return dateto;
-  //   }
-  // }
-
   function handleUpdate(item) {
     handleSavings(item.type);
     const formattedItem = {
@@ -52,7 +44,6 @@ function App() {
       rate: item.rate,
       duration: {
         From: item.datefrom,
-        // To: indefiniteTranslator(item.dateto),
         To: item.dateto,
       },
       withdraw: item.withdraw,
@@ -75,14 +66,30 @@ function App() {
 
   function handleEdit(item, editType) {
     if (editType === "edit") {
-      console.log(item);
       setEditItem(item);
+      console.log(item.duration.From);
     }
     if (editType === "duplicate") {
-      setEditItem({ ...item, name: `${item.name}-copy`, id: "" });
+      setEditItem({
+        ...item,
+        name: `${item.name}-copy`,
+        id: "",
+        dupeof: item.id,
+      });
     }
     if (editType === "delete") {
       setDeleteItem(item);
+    }
+    if (
+      item === editItem ||
+      (editItem?.dupeof && item.id === editItem.dupeof)
+    ) {
+      setEditItem("");
+    }
+    if (item.type === "saving" && !editItem) {
+      setSavings(true);
+    } else {
+      setSavings(false);
     }
   }
 
@@ -90,6 +97,7 @@ function App() {
     if (type === "cancel") {
       setDeleteItem("");
       setEditItem("");
+      setSavings(false);
     }
     if (type === "delete") {
       const itemsMinusOne = items.filter((data) => data.id !== item.id);
@@ -103,50 +111,61 @@ function App() {
   }
 
   return (
-    <div className="owl-frontend">
-      <Container>
-        <Row>
-          <EditSuite
-            handleUpdate={handleUpdate}
-            handleSavings={handleSavings}
-            isSavings={isSavings}
-            editItem={editItem}
-            incomeDropdown={incomeDropdown}
-          />
-        </Row>
-        <Row>
-          <Col xs={4}>
-            <MoneyColumnBox
-              type="income"
-              data={income}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-              isEdit={editItem}
-              isDelete={deleteItem}
+    <div>
+      <Header />
+      <div className="owl-frontend">
+        <Container>
+          <Row>
+            <Span />
+          </Row>
+          <Row>
+            <EditSuite
+              handleUpdate={handleUpdate}
+              handleSavings={handleSavings}
+              isSavings={isSavings}
+              editItem={editItem}
+              incomeDropdown={incomeDropdown}
             />
-          </Col>
-          <Col xs={4}>
-            <MoneyColumnBox
-              type="expense"
-              data={expense}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-              isEdit={editItem}
-              isDelete={deleteItem}
-            />
-          </Col>
-          <Col xs={4}>
-            <MoneyColumnBox
-              type="savings"
-              data={savings}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-              isEdit={editItem}
-              isDelete={deleteItem}
-            />
-          </Col>
-        </Row>
-      </Container>
+          </Row>
+          <Row>
+            <Col xs={4}>
+              <MoneyColumnBox
+                type="income"
+                data={income}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+                isEdit={editItem}
+                isDelete={deleteItem}
+              />
+            </Col>
+            <Col xs={4}>
+              <MoneyColumnBox
+                type="expense"
+                data={expense}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+                isEdit={editItem}
+                isDelete={deleteItem}
+              />
+            </Col>
+            <Col xs={4}>
+              <MoneyColumnBox
+                type="savings"
+                data={savings}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+                isEdit={editItem}
+                isDelete={deleteItem}
+              />
+            </Col>
+          </Row>
+        </Container>
+      </div>
+      <div className="owl-frontend">
+        <Container>
+          <Graph />
+        </Container>
+      </div>
     </div>
   );
 }
