@@ -13,6 +13,7 @@ export default function EditSuite({
 
   const [isIndefinite, setIndefinite] = useState(false);
 
+  // CONTROLS THE INDEFINITE CHECKBOX
   const checkHandler = (setFieldValue) => {
     setIndefinite(!isIndefinite);
     !isIndefinite
@@ -38,6 +39,9 @@ export default function EditSuite({
           from: isAddMode ? "" : editItem.from,
           compound: isAddMode ? "DAY" : editItem.compound,
         }}
+        // ****************************************************************
+        // THIS IS WHERE VALIDATION WOULD HAPPEN ... IT IS TURNED OFF FOR NOW
+        // ****************************************************************
         // validate={(values) => {
         //   const errors = {};
         //   if (!values.name) {
@@ -45,6 +49,12 @@ export default function EditSuite({
         //   }
         //   return errors;
         // }}
+        // ****************************************************************
+        // THIS IS WHERE YOU SUBMIT YOUR DATA. HANDLEUPDATE() KICKSTARTS ALL THE APPROPRIATE
+        // CHANGES ON THE USER SIDE. THIS IS WHERE YOU WOULD MAKE YOUR API CALLS TO ADD, EDIT OR DELETE
+        // FROM THE DATABASE
+        // ****************************************************************
+
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
@@ -74,7 +84,7 @@ export default function EditSuite({
                 value={values.name}
               />
             </label>
-            {errors.name && touched.name && errors.name}
+            {/* {errors.name && touched.name && errors.name} */}
             <label>
               type
               <Field
@@ -90,7 +100,7 @@ export default function EditSuite({
                 <option value={"expense"}>Expense</option>
                 <option value={"saving"}>Savings</option>
               </Field>
-              {errors.type && touched.type && errors.type}
+              {/* {errors.type && touched.type && errors.type} */}
             </label>
 
             <span className="dollar">$</span>
@@ -105,7 +115,7 @@ export default function EditSuite({
                 value={values.amount}
               />
             </label>
-            {errors.amount && touched.amount && errors.amount}
+            {/* {errors.amount && touched.amount && errors.amount} */}
             {isSavings === false ? (
               <>
                 <label>
@@ -120,7 +130,7 @@ export default function EditSuite({
                     {DurationsFormatter("dropdown", "rate")}
                   </Field>
                 </label>
-                {errors.rate && touched.rate && errors.rate}
+                {/* {errors.rate && touched.rate && errors.rate} */}
               </>
             ) : null}
             <label>
@@ -133,7 +143,7 @@ export default function EditSuite({
                 value={values.datefrom}
               />
             </label>
-            {errors.datefrom && touched.datefrom && errors.datefrom}
+            {/* {errors.datefrom && touched.datefrom && errors.datefrom} */}
             {isIndefinite ? null : (
               <>
                 <label>
@@ -146,7 +156,7 @@ export default function EditSuite({
                     value={values.dateto}
                   />
                 </label>
-                {errors.dateto && touched.dateto && errors.dateto}
+                {/* {errors.dateto && touched.dateto && errors.dateto} */}
               </>
             )}
 
@@ -160,6 +170,7 @@ export default function EditSuite({
             />
             <label className="indefinite">indefinite</label>
 
+            {/* THE BUTTON WHEN NOT IN SAVINGS */}
             {isSavings === false ? (
               <button
                 type="submit"
@@ -170,6 +181,7 @@ export default function EditSuite({
               </button>
             ) : null}
 
+            {/* THE EXTRA ITEMS AND BUTTON WHEN YOU ARE IN SAVINGS */}
             {isSavings === true ? (
               <div>
                 <label>

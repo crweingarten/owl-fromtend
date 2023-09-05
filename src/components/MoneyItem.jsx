@@ -13,6 +13,7 @@ export default function MoneyItem({
   handleDelete,
   isDelete,
 }) {
+  // THIS IS THE DATE THE USER SEES ON A MONEY ITEM: NOTHING, "INDEFINITE" OR MM/DD/YYYY
   function dateFormatter(date) {
     if (!date) {
       return "";
@@ -30,10 +31,13 @@ export default function MoneyItem({
     }
   }
 
+  // DECIDES WHETHER AN ITEM IS INACTIVE AND SETS BOX COLOR
   const [isInactive, setInactive] = useState(false);
   const boxColor = isEdit && item.id === isEdit.id ? "money-item" : "";
-  const deleteWarning = isDelete && item.id === isDelete.id;
   const inactive = isInactive ? "inactive" : "";
+
+  // SETS YOUR DELETE WARNING
+  const deleteWarning = isDelete && item.id === isDelete.id;
 
   return (
     <>
@@ -42,6 +46,7 @@ export default function MoneyItem({
           <Container className={boxColor}>
             <Row>
               <Col xs={3} className="toolbox">
+                {/* THE INACTIVE CHECKBOX ON EACH MONEY ITEM*/}
                 <input
                   type="checkbox"
                   className="item-checkbox"
@@ -50,16 +55,26 @@ export default function MoneyItem({
                     setInactive(!isInactive);
                   }}
                 />{" "}
-                <span onClick={() => handleEdit(item, "edit")}>
+                {/* THE EDIT BUTTON ON EACH MONEY ITEM */}
+                <span className="tool" onClick={() => handleEdit(item, "edit")}>
                   <FontAwesomeIcon icon={faPencil} />
                 </span>{" "}
-                <span onClick={() => handleEdit(item, "duplicate")}>
+                {/* THE DUPLICATE BUTTON ON EACH MONEY ITEM */}
+                <span
+                  className="tool"
+                  onClick={() => handleEdit(item, "duplicate")}
+                >
                   <FontAwesomeIcon icon={faClone} />
                 </span>{" "}
-                <span onClick={() => handleEdit(item, "delete")}>
+                {/* THE DELETE BUTTON ON EACH MONEY ITEM */}
+                <span
+                  className="trash"
+                  onClick={() => handleEdit(item, "delete")}
+                >
                   <FontAwesomeIcon icon={faTrash} />
                 </span>
               </Col>
+              {/* NAME AND AMOUNT */}
               <Col xs={3} className="money-item-title">
                 {item.name}
               </Col>
@@ -67,6 +82,7 @@ export default function MoneyItem({
                 ${item.amount}
               </Col>
             </Row>
+            {/* MORE INFO FOR SAVINGS DISPLAY */}
             {item.type === "saving" ? (
               <>
                 <Row className="money-item-info">
@@ -85,6 +101,7 @@ export default function MoneyItem({
                 <Col xs={6}>{DurationsFormatter(item.rate)}</Col>
               )}
             </Row>
+            {/* DATES FROM AND TO */}
             <Row className="mb-4 money-item-info">
               <Col xs={6} />
               <Col xs={6}>
@@ -95,6 +112,7 @@ export default function MoneyItem({
           </Container>
         </div>
       ) : (
+        // DELETE WARNING WHEN APPROPRIATE
         <Container className="delete-warning">
           <Col xs={12} className="my-3">
             <div className="delete-warning">

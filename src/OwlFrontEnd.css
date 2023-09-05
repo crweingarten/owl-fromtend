@@ -4,12 +4,8 @@
   min-height: 100vh;
   display: flex;
   flex-direction: row;
-  /* align-items: center; */
-  /* justify-content: center; */
-  /* font-size: calc(10px + 2vmin); */
   color: black;
   font-family: Tahoma, sans-serif;
-
 }
 
 .logo {
@@ -20,8 +16,6 @@
   display: inline-block;
   margin-left: 75px;
   flex-direction: row;
-  
-
 }
 
 .name {
@@ -30,7 +24,6 @@
   position: absolute;
   bottom: 0;
   margin-left: 200px;
-  
 }
 
 .graph-box {
@@ -46,32 +39,36 @@ background-color: grey;
 flex-direction: row;
 align-items: bottom;
 position: relative
-
 }
 
 .money-column-type {
   text-transform: capitalize;
   font-size: xxx-large;
-  font-weight: bold
-
+  font-weight: bold;
+  background: -webkit-linear-gradient(139deg, rgba(0,0,0,1) 0%, rgba(37,60,190,1) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.money-item {background-color: blue;
-opacity: 0.5}
+.money-item {
+  opacity: 0.25;
+  background-color: #b8cdf9;}
 
 .delete-warning {background-color: red;
   text-align: center;
+  border-radius: 15px;
  }
 
- .inactive {background-color:gray}
+ .inactive {background-color:gray;
+  border-radius: 15px;
+}
 
 .money-item-title
  {
   font-weight: bold;
   font-size: large;
   overflow-wrap: normal;
-
-
 }
 
 .money-item-amount
@@ -79,7 +76,6 @@ opacity: 0.5}
   font-size: large;
   opacity: 75%;
   flex-wrap: wrap
-
 }
 
 .money-item-info {
@@ -144,22 +140,33 @@ select { display: inline-block;
   width: 5em;
   position: relative;
   top: -3em;
+  border-radius: 5px;
+  background-color:  rgba(37,60,190,1);
+  color: white;
+  transition-duration: 0.5s
+  
 }
 
+.submit-button:hover {
+  background-color: white;
+  color: black
+}
 
 .item-checkbox {
   width: 2em;
   height: 16px;
   top: 0em;
-
-
 }
 
 .toolbox {
   position: relative;
   top: .25em;
+  transition-duration: 0.5s
 }
 
+.tool, .trash{transition-duration: 0.2s}
+.tool:hover {color: rgba(37,60,190,1)}
+.trash:hover {color: red}
 
 .startdate {
   position: relative;

@@ -1,9 +1,12 @@
 import { Formik } from "formik";
 import { useState } from "react";
 
+// THIS IS THE TEMP PLACEHOLDER FOR THE MAIN DATES AT THE TOP OF THE PAGE.
+
 export default function EditSuite() {
   const [isIndefinite, setIndefinite] = useState(false);
 
+  // I INCLUDED THE INDEFINITE BOX FUNCTIONALITY TOO
   const checkHandler = (setFieldValue) => {
     setIndefinite(!isIndefinite);
     !isIndefinite
@@ -53,7 +56,7 @@ export default function EditSuite() {
                 value={values.datefrom}
               />
             </label>
-            {errors.datefrom && touched.datefrom && errors.datefrom}
+            {/* {errors.datefrom && touched.datefrom && errors.datefrom} */}
             {isIndefinite ? null : (
               <>
                 <label>
@@ -66,7 +69,7 @@ export default function EditSuite() {
                     value={values.dateto}
                   />
                 </label>
-                {errors.dateto && touched.dateto && errors.dateto}
+                {/* {errors.dateto && touched.dateto && errors.dateto} */}
               </>
             )}
 

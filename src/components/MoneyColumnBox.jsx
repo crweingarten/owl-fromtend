@@ -9,6 +9,7 @@ export default function MoneyColumnBox({
   isEdit,
 }) {
   const moneyItems = data.map((item) => (
+    // THIS IS EACH SINGULAR MONEY ITEM
     <MoneyItem
       key={item.id}
       item={item}

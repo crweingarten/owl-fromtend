@@ -11,7 +11,11 @@ import Header from "./components/Header";
 import Span from "./components/Span";
 import Graph from "./components/Graph";
 
+// APP.JS IS THE MAIN HUB FOR EVERYTHING
+
 function App() {
+  // THE DATA COMES THROUGH AS "money_items" SO MAKE YOUR INITIAL API CALL TO GET EXISTING DATA HERE.
+  // AS YOU CAN SEE, ITS CURRENTLY PULLING FAKE DATA FROM testdata.json
   const { money_items } = require("./components/testdata.json");
   const [items, setItem] = useState(money_items);
   const [editItem, setEditItem] = useState();
@@ -21,6 +25,8 @@ function App() {
   let income = [];
   let expense = [];
   let savings = [];
+
+  // THIS SORTS THE RAW, INCOMING DATA INTO THE INCOME, EXPENSE AND SAVINGS ARRAYS ABOVE
 
   items.forEach((item) => {
     if (item.type === "income") {
@@ -32,8 +38,11 @@ function App() {
     }
   });
 
+  // THIS FORMATS THE INCOME ITEMS FOR WHEN YOU WANT TO CHOOSE THEM IN SAVINGS
   const incomeDropdown = IncomeDropdown(income);
 
+  // WHEN YOU ADD A NEW ITEM IT GOES THROUGH THIS FUNCTION SO IT
+  // CAN MAKE THE APPROPRIATE CHANGES ON WHAT THE USER SEES
   function handleUpdate(item) {
     handleSavings(item.type);
     const formattedItem = {
@@ -64,6 +73,8 @@ function App() {
     setEditItem("");
   }
 
+  // THIS IS FOR EDITING, DUPLICATING & DELETING EXISTING CONTENT. AGAIN, THIS
+  // JUST UPDATES WHAT THE USER SEES
   function handleEdit(item, editType) {
     if (editType === "edit") {
       setEditItem(item);
@@ -93,6 +104,8 @@ function App() {
     }
   }
 
+  // THIS DECIDES WHAT THE USER SEES WHEN YOU CLICK "YES" OR "NO" ON
+  // DELETE POPUP
   function handleDelete(item, type) {
     if (type === "cancel") {
       setDeleteItem("");
@@ -106,19 +119,23 @@ function App() {
     }
   }
 
+  // SHOW OR DON'T SHOW THE EXTRA FIELDS FOR SAVINGS
   function handleSavings(e) {
     e === "saving" ? setSavings(true) : setSavings(false);
   }
 
   return (
     <div>
+      {/* "HEADER" IS THE SIMPLE HEADER/LOGO COMPONENT */}
       <Header />
       <div className="owl-frontend">
         <Container>
           <Row>
+            {/* "SPAN" IS THE TO-FROM FORM ON THE TOP OF THE PAGE */}
             <Span />
           </Row>
           <Row>
+            {/* EDIT SUITE IS THE MAIN FORM FOR EDITING */}
             <EditSuite
               handleUpdate={handleUpdate}
               handleSavings={handleSavings}
@@ -129,6 +146,7 @@ function App() {
           </Row>
           <Row>
             <Col xs={4}>
+              {/* THE INCOME COLUMN */}
               <MoneyColumnBox
                 type="income"
                 data={income}
@@ -139,6 +157,7 @@ function App() {
               />
             </Col>
             <Col xs={4}>
+              {/* THE EXPENSE COLUMN */}
               <MoneyColumnBox
                 type="expense"
                 data={expense}
@@ -149,6 +168,7 @@ function App() {
               />
             </Col>
             <Col xs={4}>
+              {/* THE SAVINGS COLUMN */}
               <MoneyColumnBox
                 type="savings"
                 data={savings}
@@ -163,6 +183,7 @@ function App() {
       </div>
       <div className="owl-frontend">
         <Container>
+          {/* THE SPACE FOR THE GRAPH IS BELOW */}
           <Graph />
         </Container>
       </div>

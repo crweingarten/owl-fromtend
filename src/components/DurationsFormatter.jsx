@@ -1,4 +1,7 @@
 export default function DurationsFormatter(itemDuration, type) {
+  // THIS FUNCTION TURNS THE RAW INFO FOR "RATE" AND "COMPOUND RATE" INTO
+  // THE FORMATTED WORDS A USER SEES
+
   const rateDurations = {
     DAY: "Daily",
     WEEK: "Weekly",
@@ -22,6 +25,7 @@ export default function DurationsFormatter(itemDuration, type) {
   if (itemDuration === "dropdown" && type) {
     const durationDropdown = [];
 
+    // THIS IS THE DROPDOWN FOR THE RATE CHOICE ON THE FORM
     Object.entries(rateInput).forEach((entry) => {
       const [key, value] = entry;
       durationDropdown.push(
